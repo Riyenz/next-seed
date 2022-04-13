@@ -7,16 +7,14 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['"Poppins"', 'sans-serif'],
+      sans: ['"Source Sans Pro"', 'sans-serif'],
+      ssp: ['"Source Sans Pro"', 'sans-serif'],
+      scp: ['"Source Code Pro"', 'sans-serif'],
+      so: ['"Squada One"', 'sans-serif'],
+      ds: ['"DM Sans"', 'sans-serif'],
+      poppins: ['"Poppins"', 'sans-serif'],
     },
-    extend: {
-      colors: {
-        primary: '#5f50e6',
-      },
-      backgroundImage: {
-        pattern: 'url(/images/background.svg)',
-      },
-    },
+    extend: {},
   },
   variants: {
     extend: {
