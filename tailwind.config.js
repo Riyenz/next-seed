@@ -14,7 +14,11 @@ module.exports = {
       ds: ['"DM Sans"', 'sans-serif'],
       poppins: ['"Poppins"', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#5f50e6',
+      },
+    },
   },
   variants: {
     extend: {

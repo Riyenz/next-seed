@@ -2,11 +2,14 @@ import DefaultLayout from '../layouts/default-layout';
 import Head from 'next/head';
 
 export default function Home() {
+  const title = 'Home | NextJS Seed';
+
   return (
     <DefaultLayout className='container'>
       <Head>
-        <title>Vortex Protocol</title>
-        <link rel='icon' href='/favicon.ico' />
+        <title>{title}</title>
+        <meta property='og:title' content={title} key='ogtitle' />
+        <meta name='twitter:title' content={title} key='twittertitle' />
       </Head>
 
       <div className=''>
