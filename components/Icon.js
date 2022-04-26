@@ -29,7 +29,9 @@ const iconTypes = {
 };
 
 const Icon = ({ name, ...props }) => {
-  let IconComponent = iconTypes[name];
+  const IconComponent = iconTypes[name];
+
+  if (!IconComponent) throw Error(`icon name doesn't exists on iconTypes`);
   return <IconComponent {...props} />;
 };
 
