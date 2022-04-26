@@ -1,5 +1,5 @@
-import Sidebar from '../components/Sidebar';
-import TopNavbar from '../components/TopNavbar';
+import Sidebar from 'components/Sidebar';
+import TopNavbar from 'components/TopNavbar';
 
 export default function DefaultLayout({ children }) {
   return (

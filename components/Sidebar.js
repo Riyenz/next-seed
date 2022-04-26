@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import Icon from '../components/icon';
-import Logo from '../assets/logos/AVIT.DEV.svg';
+import Icon from 'components/icon';
+import Logo from 'assets/logos/AVIT.DEV.svg';
 
 export default function Sidebar() {
   const router = useRouter();
