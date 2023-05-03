@@ -1,6 +1,5 @@
 import AuthLayout from 'layouts/auth-layout';
 import Head from 'next/head';
-import Link from 'next/link';
 import Logo from 'assets/logos/AVIT.DEV.svg';
 import { useRouter } from 'next/router';
 import Icon from 'components/Icon';

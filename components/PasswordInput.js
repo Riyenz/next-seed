@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import Icon from './Icon';
 
-export default function PasswordInput() {
+export default function PasswordInput({ value, onChange }) {
   const [isPassword, setIsPassword] = useState(true);
 
   const type = useMemo(() => {
@@ -14,6 +14,8 @@ export default function PasswordInput() {
         type={type}
         className='border border-gray-200 pl-4 pr-8 py-2 rounded-xl w-full'
         autoComplete='new-password'
+        value={value}
+        onChange={onChange}
       />
 
       <Icon

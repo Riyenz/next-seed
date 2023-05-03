@@ -8,9 +8,9 @@ import { useRouter } from 'next/router';
 export default function Register() {
   const router = useRouter();
 
-  const title = 'Login | NextJS Seed';
+  const title = 'Register | NextJS Seed';
 
-  const onLogin = () => {
+  const onRegister = () => {
     router.push({
       pathname: '/',
     });
@@ -55,7 +55,7 @@ export default function Register() {
           </div>
         </div>
 
-        <button className='bg-primary px-4 py-2 font-bold text-white rounded-lg uppercase mt-auto' onClick={onLogin}>
+        <button className='bg-primary px-4 py-2 font-bold text-white rounded-lg uppercase mt-auto' onClick={onRegister}>
           Register account
         </button>
       </div>

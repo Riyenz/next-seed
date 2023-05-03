@@ -4,16 +4,35 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Logo from 'assets/logos/AVIT.DEV.svg';
 import { useRouter } from 'next/router';
+import { userLogin } from 'store/reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function Login() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState(process.env.NEXT_PUBLIC_DEMO_EMAIL);
+  const [password, setPassword] = useState(process.env.NEXT_PUBLIC_DEMO_PASSWORD);
+
+  const { user } = useSelector((state) => {
+    return state.user;
+  });
 
   const title = 'Login | NextJS Seed';
 
-  const onLogin = () => {
-    router.push({
-      pathname: '/',
-    });
+  const onLogin = async () => {
+    const response = await dispatch(
+      userLogin({
+        email,
+        password,
+      })
+    );
+
+    if (response.payload)
+      router.push({
+        pathname: '/',
+      });
   };
 
   return (
@@ -50,6 +69,8 @@ export default function Login() {
               autoComplete='new-password'
               autoFocus={true}
               tabIndex={0}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -57,7 +78,7 @@ export default function Login() {
             <label htmlFor='password' className='font-semibold text-sm text-gray-400'>
               Password
             </label>
-            <PasswordInput />
+            <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
             <Link href='/auth/forgot-password' className='text-sm text-right hover:text-primary'>
               Forgot password?
             </Link>
