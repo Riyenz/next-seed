@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Icon from 'components/Icon';
 import Logo from 'assets/logos/AVIT.DEV.svg';
+import { userLogout } from 'store/reducers/userReducer';
 
 export default function Sidebar() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const menus = [
     {
@@ -38,6 +41,14 @@ export default function Sidebar() {
     },
   ];
 
+  const onLogout = () => {
+    dispatch(userLogout());
+
+    router.push({
+      pathname: '/auth/login',
+    });
+  };
+
   return (
     <div className='w-[98px] h-screen fixed top-0 left-0 bg-[#FDFDFF] flex flex-col items-center py-12'>
       <Logo className='w-[42px] mb-20' />
@@ -63,6 +74,10 @@ export default function Sidebar() {
           );
         })}
       </div>
+
+      <button className='mt-auto' onClick={onLogout}>
+        <Icon name='logout' className='w-6 cursor-pointer hover:opacity-80' />
+      </button>
     </div>
   );
 }

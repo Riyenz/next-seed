@@ -13,6 +13,7 @@ import ArrowUp from 'assets/icons/arrow-up-icon.svg';
 import ArrowDown from 'assets/icons/arrow-down-icon.svg';
 import Eye from 'assets/icons/eye-icon.svg';
 import EyeOff from 'assets/icons/eye-off-icon.svg';
+import Logout from 'assets/icons/logout-icon.svg';
 
 const iconTypes = {
   home: Home,
@@ -30,6 +31,7 @@ const iconTypes = {
   arrowDown: ArrowDown,
   eye: Eye,
   eyeOff: EyeOff,
+  logout: Logout,
 };
 
 const Icon = ({ name, ...props }) => {

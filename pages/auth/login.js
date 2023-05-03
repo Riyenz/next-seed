@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Logo from 'assets/logos/AVIT.DEV.svg';
 import { useRouter } from 'next/router';
 import { userLogin } from 'store/reducers/userReducer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 export default function Login() {
@@ -14,10 +14,6 @@ export default function Login() {
 
   const [email, setEmail] = useState(process.env.NEXT_PUBLIC_DEMO_EMAIL);
   const [password, setPassword] = useState(process.env.NEXT_PUBLIC_DEMO_PASSWORD);
-
-  const { user } = useSelector((state) => {
-    return state.user;
-  });
 
   const title = 'Login | NextJS Seed';
 
