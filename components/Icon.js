@@ -26,8 +26,8 @@ const iconTypes = {
   bell: Bell,
   chevronDown: ChevronDownIcon,
   more: More,
-  arrowup: ArrowUp,
-  arrowdown: ArrowDown,
+  arrowUp: ArrowUp,
+  arrowDown: ArrowDown,
   eye: Eye,
   eyeOff: EyeOff,
 };
