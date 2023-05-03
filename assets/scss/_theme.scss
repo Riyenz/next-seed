@@ -1,0 +1,8 @@
+body {
+  @apply text-gray-600;
+}
+
+input,
+input:focus {
+  @apply outline-none;
+}

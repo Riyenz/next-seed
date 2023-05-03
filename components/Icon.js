@@ -11,6 +11,8 @@ import Users from 'assets/icons/users-icon.svg';
 import More from 'assets/icons/more-icon.svg';
 import ArrowUp from 'assets/icons/arrow-up-icon.svg';
 import ArrowDown from 'assets/icons/arrow-down-icon.svg';
+import Eye from 'assets/icons/eye-icon.svg';
+import EyeOff from 'assets/icons/eye-off-icon.svg';
 
 const iconTypes = {
   home: Home,
@@ -26,6 +28,8 @@ const iconTypes = {
   more: More,
   arrowup: ArrowUp,
   arrowdown: ArrowDown,
+  eye: Eye,
+  eyeOff: EyeOff,
 };
 
 const Icon = ({ name, ...props }) => {

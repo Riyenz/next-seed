@@ -1,4 +1,4 @@
-import Icon from './icon';
+import Icon from './Icon';
 import Image from 'next/image';
 
 export default function TopNavbar() {
@@ -17,10 +17,7 @@ export default function TopNavbar() {
         </label>
       </div>
 
-      <Icon
-        name='bell'
-        className='cursor-pointer text-[#979797] hover:text-[#4F4F4F]'
-      />
+      <Icon name='bell' className='cursor-pointer text-[#979797] hover:text-[#4F4F4F]' />
 
       <p className='ml-auto text-[20px] mr-4'>Anya</p>
 
