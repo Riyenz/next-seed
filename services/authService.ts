@@ -1,6 +1,8 @@
+import { JWT_KEY } from '@/constants/keys.const';
 import { IAuth } from '@/models/auth';
+import http from './http';
 
-const JWT_TOKEN = 'jwt-token';
+const authApi = http(process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:3000')
 
 const user = {
   email: process.env.NEXT_PUBLIC_DEMO_EMAIL,
@@ -11,7 +13,7 @@ const user = {
 class AuthService {
   getSelf() {
     return new Promise((resolve, reject) => {
-      const token = sessionStorage.getItem(JWT_TOKEN);
+      const token = sessionStorage.getItem(JWT_KEY);
       if (token) {
         resolve(user);
       } else {
@@ -21,26 +23,28 @@ class AuthService {
   }
 
   checkAuth() {
-    const token = sessionStorage.getItem(JWT_TOKEN);
+    const token = sessionStorage.getItem(JWT_KEY);
 
     return !!token;
   }
 
-  login({ email, password }: IAuth) {
-    return new Promise((resolve, reject) => {
-      if (email === user.email && password === user.password) {
-        sessionStorage.setItem(JWT_TOKEN, 'demo-token');
+  async login(authParams: Partial<IAuth>) {
+    const response = await authApi.post('auth/login', authParams)
+    sessionStorage.setItem(JWT_KEY, response.token);
 
-        resolve(user);
-      } else {
-        reject({ error: 'AuthService(login): wrong email or password' });
-      }
-    });
+    return response
+  }
+
+  async register(authParams: Partial<IAuth>) {
+    const response = await authApi.post('auth/register', authParams)
+    sessionStorage.setItem(JWT_KEY, response.token);
+
+    return response
   }
 
   logout() {
     return new Promise((resolve) => {
-      sessionStorage.removeItem(JWT_TOKEN);
+      sessionStorage.removeItem(JWT_KEY);
 
       return resolve(true);
     });
