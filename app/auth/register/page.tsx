@@ -5,49 +5,83 @@ import Logo from '@/assets/logos/AVIT.DEV.svg';
 import PasswordInput from '@/components/PasswordInput';
 import { AppDispatch } from '@/store/store';
 import { authRegister } from '@/slices/authSlice';
-import { IAuth } from '@/models/auth';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import classNames from 'classnames';
+import PhoneNumberInput from '@/components/PhoneNumberInput';
+import { Controller, RegisterOptions, useForm } from 'react-hook-form';
 
 export default function Register() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessages, setErrorMessages] = useState({} as Partial<IAuth>);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    setError,
+  } = useForm();
 
-  const onRegister = async (e: any) => {
-    e.preventDefault();
+  const formValidation: { [key: string]: RegisterOptions } = {
+    firstName: {
+      required: {
+        value: true,
+        message: 'First name is required',
+      },
+    },
+    lastName: {
+      required: {
+        value: true,
+        message: 'Last name is required',
+      },
+    },
+    phone: {
+      required: {
+        value: true,
+        message: 'Phone is required',
+      },
+    },
+    email: {
+      required: {
+        value: true,
+        message: 'Email is required',
+      },
+      pattern: {
+        value: /\S+@\S+\.\S+/,
+        message: 'Entered value does not match email format',
+      },
+    },
+    password: {
+      required: {
+        value: true,
+        message: 'Password is required',
+      },
+    },
+  };
 
-    if (!email || !password || !firstName || !lastName) {
-      setErrorMessages({
-        firstName: !firstName ? 'First name is required' : '',
-        lastName: !lastName ? 'Last name is required' : '',
-        email: !email ? 'Email is required' : '',
-        password: !password ? 'Password is required' : '',
+  const onRegister = handleSubmit(async (authParams) => {
+    setIsLoading(true);
+    const response = await dispatch(authRegister(authParams));
+    setIsLoading(false);
+
+    const errors = response.payload.errors;
+
+    if (errors) {
+      Object.keys(errors).forEach((errorKey) => {
+        setError(errorKey, {
+          type: 'server',
+          message: errors[errorKey],
+        });
       });
 
       return;
     }
 
-    setIsLoading(true);
-    const response = await dispatch(authRegister({ firstName, lastName, email, password }));
-    setIsLoading(false);
-
-    if (response.payload.errors) {
-      setErrorMessages(response.payload.errors);
-
-      return;
-    }
-
     router.push('/');
-  };
+  });
 
   return (
     <>
@@ -75,19 +109,18 @@ export default function Register() {
               First Name
             </label>
             <input
+              {...register('firstName', formValidation.firstName)}
               type='text'
               className={classNames({
                 'border border-gray-200 px-4 py-2 rounded-xl w-full': true,
-                '!border-error': !!errorMessages.firstName,
+                '!border-error': !!errors.firstName,
               })}
               autoComplete='new-password'
               autoFocus={true}
               tabIndex={0}
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
             />
-            {errorMessages.firstName && (
-              <p className='text-error text-sm  absolute right-0 -bottom-5'>{errorMessages.firstName}</p>
+            {errors.firstName && (
+              <p className='text-error text-sm  absolute right-0 -bottom-5'>{errors.firstName.message}</p>
             )}
           </div>
 
@@ -96,20 +129,34 @@ export default function Register() {
               Last Name
             </label>
             <input
+              {...register('lastName', formValidation.lastName)}
               type='text'
               className={classNames({
                 'border border-gray-200 px-4 py-2 rounded-xl w-full': true,
-                '!border-error': !!errorMessages.lastName,
+                '!border-error': !!errors.lastName,
               })}
               autoComplete='new-password'
               autoFocus={true}
               tabIndex={0}
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
             />
-            {errorMessages.lastName && (
-              <p className='text-error text-sm  absolute right-0 -bottom-5'>{errorMessages.lastName}</p>
+            {errors.lastName && (
+              <p className='text-error text-sm  absolute right-0 -bottom-5'>{errors.lastName.message}</p>
             )}
+          </div>
+
+          <div className='flex flex-col gap-1 relative'>
+            <label htmlFor='phone' className='font-semibold text-sm text-gray-400'>
+              Phone number
+            </label>
+            <Controller
+              control={control}
+              name='phone'
+              rules={formValidation.phone}
+              render={({ field: { value, onChange } }) => (
+                <PhoneNumberInput value={value} onChange={onChange} isInvalid={!!errors.phone} />
+              )}
+            />
+            {errors.phone && <p className='text-error text-sm  absolute right-0 -bottom-5'>{errors.phone.message}</p>}
           </div>
 
           <div className='flex flex-col gap-1 relative'>
@@ -117,33 +164,34 @@ export default function Register() {
               Email
             </label>
             <input
+              {...register('email', formValidation.email)}
               type='email'
               className={classNames({
                 'border border-gray-200 px-4 py-2 rounded-xl': true,
-                '!border-error': !!errorMessages.email,
+                '!border-error': !!errors.email,
               })}
               autoComplete='new-password'
               autoFocus={true}
               tabIndex={0}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
-            {errorMessages.email && (
-              <p className='text-error text-sm  absolute right-0 -bottom-5'>{errorMessages.email}</p>
-            )}
+            {errors.email && <p className='text-error text-sm  absolute right-0 -bottom-5'>{errors.email.message}</p>}
           </div>
 
           <div className='flex flex-col gap-1 relative'>
             <label htmlFor='password' className='font-semibold text-sm text-gray-400'>
               Password
             </label>
-            <PasswordInput
-              isInvalid={!!errorMessages.password}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+
+            <Controller
+              control={control}
+              name='password'
+              rules={formValidation.password}
+              render={({ field: { value, onChange } }) => (
+                <PasswordInput value={value} onChange={onChange} isInvalid={!!errors.password} />
+              )}
             />
-            {errorMessages.password && (
-              <p className='text-error text-sm absolute right-0 -bottom-5'>{errorMessages.password}</p>
+            {errors.password && (
+              <p className='text-error text-sm absolute right-0 -bottom-5'>{errors.password.message}</p>
             )}
           </div>
         </div>
